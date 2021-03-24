@@ -1,0 +1,25 @@
+{% extends 'base.html'}
+
+{%block main%}
+{% include 'flash_messages.html'}
+
+<div class="contanr">
+    <h1> Properties</h1>
+
+    {% for property in properties %}
+    <div class="property">
+        <image src="{{url_for('get_pic', filename=property['photo'])}}" class="pic_display">
+        <div class="1">
+            <span class="head">{{property['title']}}</span>
+            <div class="rw">
+                <span class="fade">{{property['location']}}</span>
+            </div>
+            <span class="btn">{{property['price']}}</span>
+        </div>
+        <div class="prop-btn margin">
+            <a href="{{url_for('resqtd_property',propertyid=property['id']}}"> View Property</a>
+        </div>   
+    </div>
+    {%endfor%}
+</div>
+{%endblock%}

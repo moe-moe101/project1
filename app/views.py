@@ -6,7 +6,16 @@ This file creates your application.
 """
 
 from app import app
+from app import db
 from flask import render_template, request, redirect, url_for
+from app.models import Property
+from werkzeug.utils import secure_filename
+from sqlalchemy import exc
+
+import datetime
+import os
+from .forms import AddPropertyForm
+
 
 
 ###
@@ -23,6 +32,61 @@ def home():
 def about():
     """Render the website's about page."""
     return render_template('about.html', name="Mary Jane")
+
+@app.route('/property', methods=['GET','POST'])
+def addProperty():
+    propertyForm = AddPropertyForm()
+
+    if request.method == 'POST':
+        if propertyForm.validate_on_submit():
+            title=propertyForm.title.data
+            description=propertyForm.description.data
+            no_rooms=propertyForm.no_rooms.data
+            no_bathrooms=propertyForm.no_bathrooms.data
+            price=propertyForm.price.data
+            location=propertyForm.location.data
+            Type=propertyForm.Type.data
+            photo=propertyForm.photo.data
+            filename = secure_filename(photo.filename)
+           
+            property=Property(title,description,no_rooms,no_bathrooms,price,location,Type,filename)
+
+            db.session.add(property)
+            db.session.commit()
+            
+            photo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            
+            flash(' The property has been successfully addded', 'success')
+            
+            return redirect(url_for('properties'))
+        flash_errors(propertyForm)
+    return render_template('addproperty.html', form=propertyForm)
+
+@app.route("/properties")
+def properties():
+    allProperties = Property.query.all()
+    properties = []
+    
+    for property  in allProperties:
+        properties.append({"title":property.title, "price":property.price, "location":property.location, "photo":property.photo, "id":property.id})
+    
+    return render_template("viewPoperties.html", properties = properties)
+
+@app.route('/property/<propertyid>')
+def resqtd_property(propertyid):
+    property  = Property.query.filter_by(id=propertyid).first()
+    
+    if property  is None:
+        return redirect(url_for('home'))
+    
+    return render_template("property.html", property=property)
+
+@app.route('/uploads/<filename>')
+def get_pic(filename):
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    FILES_DIR = os.path.abspath(os.path.join(BASE_DIR, app.config['UPLOAD_FOLDER']))
+    return send_from_directory(FILES_DIR, filename, as_attachment =True) 
+
 
 
 ###

@@ -1,3 +1,81 @@
 body {
     padding-top: 50px;
 }
+
+.form-group {
+    margin-top: 10x;
+    margin-bottom: 12px;
+  }
+  
+  .rw {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .stl {
+    width: 20rem;
+  }
+  .col {
+}
+.contanr{
+    width: 90%;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 250px);
+    grid-template-row: repeat(1, 250px);
+    grit-auto-rows: 250px;
+    grid-gap: 20px;
+  }
+  
+  .pic-display {
+    width: 250px;
+    height: 200px;
+    border: 1px solid #999999;
+  }
+  .property {
+    margin-left: 15px;
+    width: 250px;
+    background-color: white;
+    margin-bottom: 2%;
+    box-shadow: 0px 2px 8px grey;
+    position: relative;
+  }
+  
+  .head {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .fade {
+    font-size: 13px;
+    color: Grey;
+  }
+
+  .btn {
+    font-size: 13px;
+    width: 100px;
+    height: 30px;
+    
+    border: 1px solid #999999;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    color: white;
+    background-color: blue;
+  }
+  .margin {
+    margin-top: 15px;
+  }
+  .from-style{
+    display: block;
+  }
+  .prop-btn {
+    height: 30px;
+    width: 150px;
+    text-align: center;
+    border-radius: 7px;
+    color: white;
+  }
+  
